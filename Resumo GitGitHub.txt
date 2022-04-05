@@ -1,0 +1,184 @@
+Git 
+Por que?
+foi criado em 2005
+Sistema de Versionamento de Código que ajuda a criar e monitorar diferentes versoes. 
+
+GitHub - microsoft - repositório online (existe outros) 
+
+Beneficios 
+- controle de versão;
+- armazenamento em nuvem;
+- trabalho em equipe; 
+- melhorar seu codigo;
+- reconhecimento. 
+
+Conceitos Git 
+
+Sha1 
+Significa algotimo de Has Seguro, pega o aqruivo e embaralha.
+Significa secure hash algorithm´é um conjunto de funções hash criptograficas projetadas pela NSA(Agencia 
+de Segurança Nacional dos EUA).
+a encriptaçãop gera um conjunto de caracteres de 40 digitos,(que sempre muda com qualquer alteração) SHA1
+ex. identicar os arquivos de forma segura e rápida
+é uma forma curta de representar um arquivo 40 caracteres  
+
+______________________________________________________________
+
+Objetos fundamentais - responsável por versionamento do código 
+
+1 - BLOBS:
+
+Echo 'conteudo'- devolve o cha1 da string 
+// echo -e 'conteudo' - me gera outro tió de caractere echo -e 'blob 9/0conteudo' - gera o mesmo 
+os arquivos ficam guarados no objeto Blob e esse objeto contem metadados, tipo tamanho \0 o git guarda os 
+arquivos fazendo o cha1 e guarda metadados não guarda nome so cha1 que é o identificador.
+Blob é um objeto que encapsulam esse comportamento de diretórios, ele é usado para apontar 
+para diretórios que contém arquivos e por consequencia apontar para arquivos tambem 
+
+2 - TREES (arvores):
+
+Armazenam blobs, é uma crescente , armazena e aponta os blobs,ela contem metadados e guarda o nome do arquivo
+é responsável por montar a estrutura e onde estão localizados os arquivos, apontam para blobs ou outras trees (arvores)
+e tambem tem 1 cha1 dos metadados, se mudar uma virgula muda toda a estrutura dessa arvore.
+
+         tree 
+    /     |   \     - readme rakelife lib
+ blob    blob  tree
+                 |   - simplegit.rb
+                blob   
+
+As arvores apontam para outras bolhas e outras arvores que podem apontar para outras bolhas.
+a blob é um objeto que encapsulam esse comportamento de diretórios, ele é usado para apontar 
+para diretórios que contém arquivos e por consequencia apontar para arquivos tambem 
+
+3 - COMMITS:
+
+É o objeto mais importante de todos, ele vai juntar tudo, vai dar sentido para a alteração
+realizada.
+commit - aponta para a arvore, aponta para o parente - aponta para o ultimo commit realizado, aponta para o autor
+e aponta para a mensagem também.
+Escrever msg no arquivo para alterações realizadas, ele tem um timestamp - que é um carimbo de tempo - ele leva o horário, data de onde ele foi criado. 
+Os commits tb possuem cha1, identificador de metadados, se vc alterar uma blob um dado ele gera um cha1, então vai alterar o metadados da arvore. 
+O commit apontam para arores, que podem mudar qualquer arquivo vai alterar os dados.
+Quando vc tem um commit, vc garante que ninguem alterou aquele commit, monta uma linha do tempo,é uma forma segura de demonstrar o que foi feito, 
+não é possível alterar o commit de forma maliciosa porque ele é unico para cada autor
+
+                   blob
+
+                 / 
+commi-------tree ---------- blob
+                \
+                   blob
+
+
+Git é um sistema distribuido seguro
+
+_______________________________________________________________________________
+
+Chave SSH e Tokens 
+
+chave ssh - é uma forma de estabelecer um conexao segura entre duas máquinas,
+quando voce manda pro git ele já vai reconhecer a sua maquina 
+
+criar chyave no github
+ssh-keygen -t ed25519 -c roseffc@gmail.com
+
+cd /c/Users/Rose/.ssh/
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINyymDlP6i6WkVI9ZioWSes2hxMAYPxOP5xwPalexl7N roseffc@gmail.com
+
+minha cheve github
+
+$ eval $(ssh-agent -s)
+Agent pid 930
+
+$ ls
+id_ed25519  id_ed25519.pub
+
+eval $(ssh-agent -s)
+
+ssh-add id_ed25519
+
+_______________________________________________________________________________
+
+Iniciar Git 
+git init (inicializa o repositório no git dentro da pasta)
+
+mover arquivos e dar inicio versionamento
+
+git add 
+
+primeiro commit 
+git commit
+
+ls -a (mostra arquivos ocultos dentro da pasta)
+
+conf inicial
+git config --global user.email "roseffc@gmail.com"
+
+git config --global user.name Roseffc
+
+________________________________________________________________________________
+
+git add * (comando para adicionar a pasta no git, deve estar usando o git bash e 
+dentro da pasta que quer adicionar)
+
+git commit -m "commit inicial" (msg com a alteração executada, se é inicio, alteração, etc - contem a hora e local da criação)
+
+______________________________________________________________________________
+
+untracked - arquivos que o git não tem ciencia ( qdo criamos o arq)
+
+tracked - arquivos rastrados pelo git (git add - moveu o arquivo p/ o stage)
+
+unmodified - arq. não modificados (qdo não sofreu modificacoes, ele compara com sha1), quando init 
+
+modified - arq. modificados, qdo roda git vai para o staged 
+
+staged - conceito chave - onde fica os arquivos que estão se praparando para fazer parte de outro tipo de 
+agrupamento, quando move para o staged, esta se preparando para o commit, gera um commit, (carrega data, autor)
+commit - retorna os arquivos para unmidified ( é como uma foto do código que está salvo no commit 
+e assim volta aguaradr novas modificacoes) é um ciclo desses 03 estágios 
+unmidified - modified - staged 
+
+repositorios Git é um sistema distribuidos
+
+servidor (remore resopitory)
+
+ambientes de desenvolvimento 
+
+working (directory)
+
+staging (area)
+
+local (repository)
+
+quando commit move os arquivos em staged, cria uma foto daquele momento
+
+tudo que está em um repositorio local (git) deve ser commitado para um repositorio 
+nuvens (github)
+
+git status - mostra o que foi commitado, se está antrecked, mostra branch master 
+
+git add nomeArquivo / git add * / git add.
+coloca os arquivos modificados (unmodified) em stage , ou seja na área que vai ocorrer a modificacao.
+
+git commit -m"msg"
+pegamos os arquivos em stage e criamos o commit 
+
+_________________________________________________________________________________________________
+
+acessar github, criar novo repositorios, copiar endereco do repositorio
+https://github.com/Roseffc/livro-receitas
+git remote add origin https://github.com/Roseffc/livro-receitas.git
+git remote -v (verificar git)
+git status (verificar se há pendencias)
+o comando que usamos é empurrar 
+git push origin master
+
+para puxar 
+git pull origin master 
+
+git add *
+
+git commit -m "resolve conflitos"
